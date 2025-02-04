@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Streaming Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        select, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Streaming Control</h1>
+    <label for="videoSelect">Pilih Video:</label>
+    <select id="videoSelect">
+        <option value="video1.mp4">Video 1</option>
+        <option value="video2.mp4">Video 2</option>
+        <option value="video3.mp4">Video 3</option>
+    </select>
+    <br>
+    <button id="startStreamBtn">Mulai Streaming</button>
+    <button id="stopStreamBtn">Hentikan Streaming</button>
+
+    <script>
+        document.getElementById('startStreamBtn').onclick = function() {
+            const selectedVideo = document.getElementById('videoSelect').value;
+            fetch('/start_stream', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ video: selectedVideo })
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        };
+
+        document.getElementById('stopStreamBtn').onclick = function() {
+            fetch('/stop_stream', { method: 'POST' })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            });
+        };
+    </script>
+</body>
+</html>
